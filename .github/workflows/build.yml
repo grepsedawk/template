@@ -10,17 +10,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Add README Thingy
+      - name: Configure git
         run: |
           git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global user.name "${GITHUB_ACTOR}"
+
+      - name: Add README Progress
+        run: |
           echo "# Template Build In Progress" > README.md
-          git add .
+          echo > README.md
+          echo "- Installing Crystal..." >> README.md
+          git add README.md
           git commit --amend --no-edit
           git push -f
 
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1.6.0
+
+      - name: Add README Progress
+        run: |
+          echo "- Installing Latest lucky_cli release..." >> README.md
+          git add README.md
+          git commit --amend --no-edit
+          git push -f
 
       - name: Install Lucky
         run: |
@@ -31,6 +43,14 @@ jobs:
           shards install
           shards build
           mv bin/lucky /usr/local/bin/
+
+      - name: Add README Progress
+        run: |
+          echo "- Running template build to overlay template..." >> README.md
+          git add README.md
+          git commit --amend --no-edit
+          git push -f
+
 
       - name: Build
         run: |
