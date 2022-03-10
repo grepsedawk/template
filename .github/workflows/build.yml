@@ -49,6 +49,8 @@ jobs:
 
       - name: Push Built Tempalte
         run: |
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
           git add .
           git commit --amend --no-edit
           git push -f
