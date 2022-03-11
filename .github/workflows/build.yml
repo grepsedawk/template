@@ -10,19 +10,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure git
-        run: |
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git config --global user.name "${GITHUB_ACTOR}"
-
       - name: Add README Progress
         run: |
           echo "# Template Build In Progress" > README.md
           echo >> README.md
           echo "- Installing Crystal..." >> README.md
-          git add README.md
-          git commit --amend --no-edit
-          git push -f
+      
+      - uses: grepsedawk/force-push-changes@v0.1.0
 
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1.6.0
@@ -30,9 +24,8 @@ jobs:
       - name: Add README Progress
         run: |
           echo "- Installing Latest lucky_cli release..." >> README.md
-          git add README.md
-          git commit --amend --no-edit
-          git push -f
+          
+      - uses: grepsedawk/force-push-changes@v0.1.0
 
       - name: Install Lucky
         run: |
@@ -50,7 +43,8 @@ jobs:
           git add README.md
           git commit --amend --no-edit
           git push -f
-
+      
+      - uses: grepsedawk/force-push-changes@v0.1.0
 
       - name: Build
         run: |
@@ -76,10 +70,4 @@ jobs:
           # TODO: Remove after https://github.com/luckyframework/lucky_cli/pull/739 is released
           sed -i '49,58d' config/server.cr
 
-      - name: Push Built Tempalte
-        run: |
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git config --global user.name "${GITHUB_ACTOR}"
-          git add .
-          git commit --amend --no-edit
-          git push -f
+      - uses: grepsedawk/force-push-changes@v0.1.0
